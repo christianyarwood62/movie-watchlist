@@ -1,6 +1,4 @@
-# movie-watchlist
-
-This app was made to showcase my skills learning React
+# Movie Watchlist App
 
 ## Requirements
 
@@ -43,6 +41,8 @@ This app was made to showcase my skills learning React
 - none
 
 ### Other NPM packages
+
+- none
 
 ## Design decisions
 
