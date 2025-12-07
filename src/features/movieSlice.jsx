@@ -3,13 +3,25 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export const fetchMovies = createAsyncThunk(
   "movies/fetchMovies",
   async function (query) {
-    const res = await fetch(
-      `https://www.omdbapi.com/?apikey=71f8f38f&s=${query}`
-    );
-    const data = await res.json();
-    return data.Search;
+    try {
+      const res = await fetch(
+        `https://www.omdbapi.com/?apikey=71f8f38f&s=${query}`
+      );
+      const data = await res.json();
+      // if the user search for movie that doesn't exist then the error is caught
+      if (data.Search.length > 0) {
+        return data.Search;
+      }
+      console.log(data);
+
+      // return [];
+    } catch (error) {
+      console.log(error.Error);
+      throw new Error(error.Error);
+    }
   }
 );
+
 const initialState = {
   movies: [],
   isLoading: false,
@@ -19,12 +31,6 @@ const initialState = {
 const movieSlice = createSlice({
   name: "movieList",
   initialState,
-  reducers: {
-    // This is used to initially search for movies
-    searchMovies(state, action) {
-      return { ...state, movies: action.payload };
-    },
-  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchMovies.pending, (state) => {
@@ -41,7 +47,5 @@ const movieSlice = createSlice({
       });
   },
 });
-
-export const { searchMovies } = movieSlice.actions;
 
 export default movieSlice.reducer;
