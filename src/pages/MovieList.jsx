@@ -1,43 +1,11 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-
-const movies = [
-  {
-    name: "test1",
-    imdb: "9",
-    movieLength: "142",
-    createDate: "1992",
-  },
-  {
-    name: "test2",
-    imdb: "8",
-    movieLength: "101",
-    createDate: "2010",
-  },
-  {
-    name: "test1",
-    imdb: "9",
-    movieLength: "142",
-    createDate: "1992",
-  },
-  {
-    name: "test2",
-    imdb: "8",
-    movieLength: "101",
-    createDate: "2010",
-  },
-  {
-    name: "test1",
-    imdb: "9",
-    movieLength: "142",
-    createDate: "1992",
-  },
-  {
-    name: "test2",
-    imdb: "8",
-    movieLength: "101",
-    createDate: "2010",
-  },
-];
+import { fetchMovie } from "../services/apiMovies";
+import { useDispatch, useSelector } from "react-redux";
+import { addMovie } from "../features/watchSlice";
+import { useLoaderData } from "react-router-dom";
+import { searchMovies, fetchMovies } from "../features/movieSlice";
+import Loader from "../UI/Loader";
 
 const StyledMain = styled.main`
   width: 80%;
@@ -70,6 +38,9 @@ const MovieContainer = styled.div`
   gap: 1.2rem;
   border: solid, 1px, rgba(255, 255, 255, 0.2);
   border-radius: 1rem;
+
+  &:hover {
+  }
 `;
 
 const MovieDetails = styled.div`
@@ -103,27 +74,78 @@ const MovieText = styled.div`
 `;
 
 function MovieList() {
+  const [input, setInput] = useState("");
+  const dispatch = useDispatch();
+
+  // This stores the initially loaded movies to the reducer movies state upon component mount
+  useEffect(() => {
+    dispatch(fetchMovies("spiderman"));
+  }, []);
+
+  // Selects the movie list from the movies state in the reducer
+  const searchedMovies = useSelector((state) => state.movieList.movies);
+
+  const isLoading = useSelector((state) => state.movieList.isLoading);
+
+  // searches the API for generic info about the movie and adds it to the movieSlice reducer state
+  async function handleSearchMovie(movie) {
+    const movies = await fetchMovies(movie);
+    dispatch(searchMovies(movies.Search));
+  }
+
+  // Searches the APi for more detailed info about the selected movie and adds it to the watchList reducer state
+  async function addMovieToWatchList(id) {
+    const searchedMovie = await fetchMovie(id);
+    dispatch(addMovie(searchedMovie));
+  }
+
   return (
     <StyledMain>
-      <input placeholder="Search for movies" type="text" />
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSearchMovie(input);
+        }}
+      >
+        <input
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Search for movies"
+          type="text"
+        />
+      </form>
       <StyledSection>
-        {movies.map((movie) => (
-          <MovieContainer key={movie.name}>
-            <AddButton>+</AddButton>
-            <img src="../../public/Road-To-City-Movie-Poster-and-Flyer-Psd-Template.jpg" />
-            <MovieText>
-              <MovieHeader>{movie.name}</MovieHeader>
-              <MovieDetails>
-                <MovieDetail>{movie.imdb}</MovieDetail>
-                <MovieDetail>{movie.movieLength}</MovieDetail>
-                <MovieDetail>{movie.createDate}</MovieDetail>
-              </MovieDetails>
-            </MovieText>
-          </MovieContainer>
-        ))}
+        {isLoading ? (
+          <Loader />
+        ) : searchedMovies?.length > 0 ? (
+          searchedMovies?.map((movie) => (
+            <MovieContainer key={movie.imdbID}>
+              <AddButton onClick={() => addMovieToWatchList(movie.imdbID)}>
+                +
+              </AddButton>
+              <img src={movie.Poster} />
+              <MovieText>
+                <MovieHeader>{movie.Title}</MovieHeader>
+                <MovieDetails>
+                  <MovieDetail>{movie.imdbRating}</MovieDetail>
+                  <MovieDetail>{movie.movieLength}</MovieDetail>
+                  <MovieDetail>{movie.Year}</MovieDetail>
+                </MovieDetails>
+              </MovieText>
+            </MovieContainer>
+          ))
+        ) : (
+          <p>no movies</p>
+        )}
       </StyledSection>
     </StyledMain>
   );
+}
+
+// calls the API function to initially fetch a set of movies since OMDB doesnt provide movies unless prompted
+export async function loader() {
+  const movies = await fetchMovies("spiderman");
+  console.log(movies);
+  return movies;
 }
 
 export default MovieList;
