@@ -55,6 +55,7 @@ const MovieContainer = styled.div`
   flex-direction: column;
   position: relative;
   gap: 1.2rem;
+  background-color: var(--color-blue-600);
   border: solid, 1px, rgba(255, 255, 255, 0.2);
   border-radius: 1rem;
   justify-content: space-between;
@@ -154,7 +155,7 @@ function MovieList() {
               >
                 +
               </AddButton>
-              <img src={movie.Poster} />
+              <img style={{ margin: "auto 0" }} src={movie.Poster} />
               <MovieText>
                 <MovieHeader>{movie.Title}</MovieHeader>
                 <MovieDetails>
