@@ -1,49 +1,48 @@
 import { RiDeleteBinLine } from "react-icons/ri";
 import styled from "styled-components";
 
-function MovieWatchListItem({ movie }) {
-  const StyledMovieItem = styled.div`
-    display: flex;
-    background-color: var(--color-blue-600);
-    border-radius: 1rem;
-    border: solid rgba(184, 184, 184, 0.3) 1px;
-    margin: 4rem;
-    padding: 2rem;
-  `;
+const StyledMovieItem = styled.div`
+  display: flex;
+  background-color: var(--color-blue-600);
+  border-radius: 1rem;
+  border: solid rgba(184, 184, 184, 0.3) 1px;
+  padding: 2rem;
+`;
 
-  const Poster = styled.img`
-    height: 18rem;
-  `;
+const Poster = styled.img`
+  height: 18rem;
+`;
 
-  const MovieDetails = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+const MovieDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 
-    & p {
-      font-size: 1.6rem;
-    }
-
-    & > p {
-      font-size: 2.4rem;
-    }
-  `;
-
-  const MovieText = styled.div`
-    /* display: flex; */
-  `;
-
-  const RemoveBtn = styled.button`
-    all: unset;
-    color: red;
+  & p {
     font-size: 1.6rem;
-    margin-top: auto;
-  `;
+  }
 
-  const StyledDetailsContainers = styled.div`
-    display: flex;
-  `;
+  & > p {
+    font-size: 2.4rem;
+  }
+`;
 
+const MovieText = styled.div`
+  /* display: flex; */
+`;
+
+const RemoveBtn = styled.button`
+  all: unset;
+  color: red;
+  font-size: 1.6rem;
+  margin-top: auto;
+`;
+
+const StyledDetailsContainers = styled.div`
+  display: flex;
+`;
+
+function MovieWatchListItem({ movie }) {
   return (
     <StyledMovieItem>
       <Poster src={movie.Poster} />

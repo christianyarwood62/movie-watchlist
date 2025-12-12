@@ -56,11 +56,3 @@ body {
   --color-red-700: #b91c1c;
   --color-red-800: #991b1b;
 }
-
-navlink {
-  all: unset;
-}
-
-button {
-  cursor: pointer;
-}

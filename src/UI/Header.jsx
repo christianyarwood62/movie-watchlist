@@ -15,6 +15,7 @@ const StyledNavLink = styled(NavLink)`
   display: inline-block;
   font-size: 2.4rem;
   border-radius: 1rem;
+  cursor: pointer;
 
   &.active {
     background: var(--color-indigo-100);

@@ -102,6 +102,9 @@ function MovieList() {
   // Grabs the movie list data from the redux store
   const movies = useSelector((state) => state.movieList.movies);
 
+  // Grab the watch list state, so all the movies added to the watchlist
+  const watchList = useSelector((state) => state.watchList);
+
   // if the movie list from redux store is empty, then it grabs a bunch of initial movies
   useEffect(() => {
     if (movies.length === 0) {
@@ -120,10 +123,15 @@ function MovieList() {
   // Searches the API for more detailed info about the selected movie and adds it to the watchList reducer state
   async function addMovieToWatchList(id) {
     const searchedMovie = await fetchMovie(id);
+    const isMovieAlreadyAdded = watchList.some(
+      (movie) => movie.imdbID === searchedMovie.imdbID
+    );
+    if (isMovieAlreadyAdded) {
+      toast("Movie already added to your watch list");
+      return;
+    }
     dispatch(addMovie(searchedMovie));
   }
-
-  const notify = () => toast("Added to watch list");
 
   return (
     <StyledMain>
@@ -150,7 +158,6 @@ function MovieList() {
               <AddButton
                 onClick={() => {
                   addMovieToWatchList(movie.imdbID);
-                  notify();
                 }}
               >
                 +
