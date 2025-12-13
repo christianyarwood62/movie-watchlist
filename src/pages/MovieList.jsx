@@ -5,8 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { addMovie } from "../features/watchSlice";
 import { fetchMovies } from "../features/movieSlice";
 import Loader from "../UI/Loader";
-import { FaMagnifyingGlass } from "react-icons/fa6";
 import { toast, ToastContainer } from "react-toastify";
+import { IoMdCheckmark } from "react-icons/io";
+import { FaPlus } from "react-icons/fa";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 
 const StyledMain = styled.main`
   width: 80%;
@@ -70,6 +72,9 @@ const MovieDetails = styled.div`
 `;
 
 const AddButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   right: 20px;
   top: 10px;
@@ -133,6 +138,11 @@ function MovieList() {
     dispatch(addMovie(searchedMovie));
   }
 
+  // Checks if the movie is already added to the watch list, to conditionally render the add or remove button in the icon
+  const isMovieAlreadyAdded = movies.map((movie) =>
+    watchList.some((watchMovie) => watchMovie.imdbID === movie.imdbID)
+  );
+
   return (
     <StyledMain>
       <ToastContainer />
@@ -153,14 +163,21 @@ function MovieList() {
         {isLoading ? (
           <Loader />
         ) : movies?.length > 0 ? (
-          movies?.map((movie) => (
+          movies?.map((movie, i) => (
             <MovieContainer key={movie.imdbID}>
               <AddButton
                 onClick={() => {
                   addMovieToWatchList(movie.imdbID);
                 }}
+                disabled={isMovieAlreadyAdded[i]}
               >
-                +
+                {isMovieAlreadyAdded[i] ? (
+                  <IoMdCheckmark
+                    style={{ color: "green", strokeWidth: "50" }}
+                  />
+                ) : (
+                  <FaPlus style={{ color: "red", strokeWidth: "10" }} />
+                )}
               </AddButton>
               <img style={{ margin: "auto 0" }} src={movie.Poster} />
               <MovieText>

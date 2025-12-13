@@ -8,11 +8,11 @@ export const fetchMovies = createAsyncThunk(
         `https://www.omdbapi.com/?apikey=71f8f38f&s=${query}`
       );
       const data = await res.json();
-      // if the user search for movie that doesn't exist then the error is caught
+      // if the user searches for movie that doesn't exist then the error is caught
       if (data.Search.length > 0) {
+        console.log(data);
         return data.Search;
       }
-      console.log(data);
 
       // return [];
     } catch (error) {

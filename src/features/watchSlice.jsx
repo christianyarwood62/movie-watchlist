@@ -17,6 +17,6 @@ const watchSlice = createSlice({
   },
 });
 
-export const { addMovie } = watchSlice.actions;
+export const { addMovie, state } = watchSlice.actions;
 
 export default watchSlice.reducer;
