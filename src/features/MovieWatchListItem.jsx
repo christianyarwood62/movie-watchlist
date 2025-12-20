@@ -1,5 +1,8 @@
-import { RiDeleteBinLine } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
+import { removeMovie } from "../features/watchSlice";
 import styled from "styled-components";
+import { RiDeleteBinLine } from "react-icons/ri";
+import { toast } from "react-toastify";
 
 const StyledMovieItem = styled.div`
   display: flex;
@@ -43,6 +46,16 @@ const StyledDetailsContainers = styled.div`
 `;
 
 function MovieWatchListItem({ movie }) {
+  const dispatch = useDispatch();
+
+  // Grab the watch list state, so all the movies added to the watchlist
+  const watchList = useSelector((state) => state.watchList);
+
+  function handleRemoveMovie(id) {
+    dispatch(removeMovie(id));
+    toast("Movie deleted from watch list");
+  }
+
   return (
     <StyledMovieItem>
       <Poster src={movie.Poster} />
@@ -62,7 +75,7 @@ function MovieWatchListItem({ movie }) {
             <p>{movie.Actors}</p>
           </StyledDetailsContainers>
         </MovieText>
-        <RemoveBtn>
+        <RemoveBtn onClick={() => handleRemoveMovie(movie.imdbID)}>
           <RiDeleteBinLine />
           Remove
         </RemoveBtn>

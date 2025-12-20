@@ -7,17 +7,21 @@ export const fetchMovies = createAsyncThunk(
       const res = await fetch(
         `https://www.omdbapi.com/?apikey=71f8f38f&s=${query}`
       );
+
+      // If the api fetch doesnt work
+      if (!res.ok) throw new Error("Request failed");
+
       const data = await res.json();
-      // if the user searches for movie that doesn't exist then the error is caught
-      if (data.Search.length > 0) {
-        console.log(data);
-        return data.Search;
+
+      // if the user searches for movie that doesn't exist
+      if (!data.Search || data.Search.length === 0) {
+        return [];
       }
 
-      // return [];
+      // On a successful fetch request, return the search results
+      return data.Search;
     } catch (error) {
-      console.log(error.Error);
-      throw new Error(error.Error);
+      console.log(error.message);
     }
   }
 );
@@ -25,7 +29,7 @@ export const fetchMovies = createAsyncThunk(
 const initialState = {
   movies: [],
   isLoading: false,
-  error: "",
+  error: null,
 };
 
 const movieSlice = createSlice({
@@ -44,6 +48,7 @@ const movieSlice = createSlice({
       .addCase(fetchMovies.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message;
+        state.movies = [];
       });
   },
 });

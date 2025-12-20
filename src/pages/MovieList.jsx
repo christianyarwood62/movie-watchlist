@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { fetchMovie } from "../services/apiMovies";
 import { useDispatch, useSelector } from "react-redux";
-import { addMovie } from "../features/watchSlice";
+import { addMovie, removeMovie } from "../features/watchSlice";
 import { fetchMovies } from "../features/movieSlice";
 import Loader from "../UI/Loader";
 import { toast, ToastContainer } from "react-toastify";
@@ -104,8 +104,8 @@ function MovieList() {
   const [input, setInput] = useState("");
   const dispatch = useDispatch();
 
-  // Grabs the movie list data from the redux store
-  const movies = useSelector((state) => state.movieList.movies);
+  // Grabs the state from the redux store
+  const { isLoading, movies, error } = useSelector((state) => state.movieList);
 
   // Grab the watch list state, so all the movies added to the watchlist
   const watchList = useSelector((state) => state.watchList);
@@ -117,9 +117,6 @@ function MovieList() {
     }
   }, [dispatch, movies.length]);
 
-  // Grabs the isLoading state from the redux store to display loading elements when rendering
-  const isLoading = useSelector((state) => state.movieList.isLoading);
-
   // searches the API for generic info about the movie and adds it to the movieSlice reducer state
   async function handleSearchMovie(movie) {
     dispatch(fetchMovies(movie));
@@ -128,14 +125,13 @@ function MovieList() {
   // Searches the API for more detailed info about the selected movie and adds it to the watchList reducer state
   async function addMovieToWatchList(id) {
     const searchedMovie = await fetchMovie(id);
-    const isMovieAlreadyAdded = watchList.some(
-      (movie) => movie.imdbID === searchedMovie.imdbID
-    );
-    if (isMovieAlreadyAdded) {
-      toast("Movie already added to your watch list");
-      return;
-    }
     dispatch(addMovie(searchedMovie));
+    toast("Movie added to your watch list!");
+  }
+
+  function removeMovieFromWatchList(id) {
+    toast("Movie removed from your watch list!");
+    dispatch(removeMovie(id));
   }
 
   // Checks if the movie is already added to the watch list, to conditionally render the add or remove button in the icon
@@ -166,10 +162,13 @@ function MovieList() {
           movies?.map((movie, i) => (
             <MovieContainer key={movie.imdbID}>
               <AddButton
-                onClick={() => {
-                  addMovieToWatchList(movie.imdbID);
-                }}
-                disabled={isMovieAlreadyAdded[i]}
+                onClick={
+                  isMovieAlreadyAdded[i]
+                    ? () => removeMovieFromWatchList(movie.imdbID)
+                    : () => {
+                        addMovieToWatchList(movie.imdbID);
+                      }
+                }
               >
                 {isMovieAlreadyAdded[i] ? (
                   <IoMdCheckmark
