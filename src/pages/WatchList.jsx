@@ -12,12 +12,17 @@ const WatchList = styled.div`
 function Watchlist() {
   const watchList = useSelector((state) => state.watchList);
 
+  console.log(watchList);
   return (
     <WatchList>
       <h1>My Watch List</h1>
-      {watchList.map((movie) => (
-        <MovieWatchListItem key={movie.imdbID} movie={movie} />
-      ))}
+      {watchList.length === 0 ? (
+        <h3>Add some movies!</h3>
+      ) : (
+        watchList.map((movie) => (
+          <MovieWatchListItem key={movie.imdbID} movie={movie} />
+        ))
+      )}
     </WatchList>
   );
 }

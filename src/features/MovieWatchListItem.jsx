@@ -29,7 +29,7 @@ const StyledMovieItem = styled.div`
 
   & p,
   & h3,
-  ${WatchedButton}, {
+  ${WatchedButton} {
     ${(props) =>
       props.$watched &&
       css`
