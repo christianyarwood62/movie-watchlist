@@ -4,11 +4,11 @@ import { fetchMovie } from "../services/apiMovies";
 import { useDispatch, useSelector } from "react-redux";
 import { addMovie, removeMovie } from "../features/watchSlice";
 import { fetchMovies } from "../features/movieSlice";
-import Loader from "../UI/Loader";
 import { toast, ToastContainer } from "react-toastify";
 import { IoMdCheckmark } from "react-icons/io";
 import { FaPlus } from "react-icons/fa";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import Spinner from "../UI/Spinner";
 
 const StyledMain = styled.main`
   width: 80%;
@@ -157,7 +157,7 @@ function MovieList() {
       </StyledForm>
       <StyledSection>
         {isLoading ? (
-          <Loader />
+          <Spinner />
         ) : movies?.length > 0 ? (
           movies?.map((movie, i) => (
             <MovieContainer key={movie.imdbID}>
