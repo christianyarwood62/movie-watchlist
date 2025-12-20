@@ -105,7 +105,7 @@ function MovieList() {
   const dispatch = useDispatch();
 
   // Grabs the state from the redux store
-  const { isLoading, movies, error } = useSelector((state) => state.movieList);
+  const { isLoading, movies } = useSelector((state) => state.movieList);
 
   // Grab the watch list state, so all the movies added to the watchlist
   const watchList = useSelector((state) => state.watchList);

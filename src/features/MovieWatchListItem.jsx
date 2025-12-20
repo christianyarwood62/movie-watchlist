@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { removeMovie } from "../features/watchSlice";
 import styled from "styled-components";
 import { RiDeleteBinLine } from "react-icons/ri";
@@ -47,9 +47,6 @@ const StyledDetailsContainers = styled.div`
 
 function MovieWatchListItem({ movie }) {
   const dispatch = useDispatch();
-
-  // Grab the watch list state, so all the movies added to the watchlist
-  const watchList = useSelector((state) => state.watchList);
 
   function handleRemoveMovie(id) {
     dispatch(removeMovie(id));
