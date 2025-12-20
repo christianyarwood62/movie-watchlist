@@ -78,7 +78,8 @@ const AddButton = styled.button`
   position: absolute;
   right: 20px;
   top: 10px;
-  background-color: rgba(31, 12, 81, 0.708);
+  background-color: ${({ $added }) =>
+    $added ? "green" : "rgba(31, 12, 81, 0.708)"};
   border-radius: 100rem;
   width: 3.6rem;
   height: 3.6rem;
@@ -162,6 +163,7 @@ function MovieList() {
           movies?.map((movie, i) => (
             <MovieContainer key={movie.imdbID}>
               <AddButton
+                $added={isMovieAlreadyAdded[i]}
                 onClick={
                   isMovieAlreadyAdded[i]
                     ? () => removeMovieFromWatchList(movie.imdbID)
@@ -171,11 +173,9 @@ function MovieList() {
                 }
               >
                 {isMovieAlreadyAdded[i] ? (
-                  <IoMdCheckmark
-                    style={{ color: "green", strokeWidth: "50" }}
-                  />
+                  <IoMdCheckmark style={{ strokeWidth: "50" }} />
                 ) : (
-                  <FaPlus style={{ color: "red", strokeWidth: "10" }} />
+                  <FaPlus style={{ strokeWidth: "10" }} />
                 )}
               </AddButton>
               <img style={{ margin: "auto 0" }} src={movie.Poster} />
