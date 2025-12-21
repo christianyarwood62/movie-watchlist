@@ -1,10 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { login, createAccount } from "./authSlice";
+import { useNavigate } from "react-router-dom";
 
 function SignInForm() {
   const [isSignUp, setIsSignUp] = useState(false);
+
+  const { error: authError, loggedInUser } = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (loggedInUser && !authError) navigate("/watch-list");
+  }, [authError, navigate, loggedInUser]);
 
   const {
     register,
@@ -12,10 +23,6 @@ function SignInForm() {
     formState: { formErrors },
     reset,
   } = useForm();
-
-  const dispatch = useDispatch();
-
-  const authError = useSelector((state) => state.auth.error);
 
   function handleLogin(data) {
     console.log(data);
@@ -27,6 +34,8 @@ function SignInForm() {
     dispatch(
       createAccount({ username: data.username, password: data.password })
     );
+    reset();
+    navigate("/watch-list");
   }
 
   return (

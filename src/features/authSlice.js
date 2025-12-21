@@ -16,9 +16,21 @@ const authSlice = createSlice({
           user.username === action.payload.username &&
           user.password === action.payload.password
       );
+
       if (!existingUser) return { ...state, error: "No user found" };
 
-      return { ...state, error: null, loggedInUser: existingUser };
+      const correctUsername = state.users.find(
+        (user) => user.username === action.payload.username
+      );
+
+      if (
+        correctUsername &&
+        correctUsername.password !== action.payload.password
+      )
+        return { ...state, error: "Incorrect password" };
+
+      if (existingUser)
+        return { ...state, error: null, loggedInUser: existingUser };
     },
 
     logout(state) {
@@ -31,6 +43,10 @@ const authSlice = createSlice({
         password: action.payload.password,
       });
       state.error = null;
+      state.loggedInUser = {
+        username: action.payload.username,
+        password: action.payload.password,
+      };
     },
   },
 });
