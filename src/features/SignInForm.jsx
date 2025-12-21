@@ -10,6 +10,7 @@ function SignInForm() {
     register,
     handleSubmit,
     formState: { formErrors },
+    reset,
   } = useForm();
 
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ function SignInForm() {
           onClick={(e) => {
             e.preventDefault();
             setIsSignUp(!isSignUp);
+            reset();
           }}
         >
           {isSignUp
