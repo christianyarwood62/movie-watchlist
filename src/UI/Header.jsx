@@ -62,6 +62,11 @@ function Header() {
             <StyledNavLink to="watch-list">Watch list</StyledNavLink>
           </ListItem>
         </ul>
+        <ul>
+          <ListItem>
+            <StyledNavLink to="login">Login</StyledNavLink>
+          </ListItem>
+        </ul>
       </StyledNav>
     </StyledHeader>
   );
