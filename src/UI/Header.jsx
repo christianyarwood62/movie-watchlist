@@ -1,5 +1,9 @@
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+
+import { IoIosLogOut } from "react-icons/io";
+import { logout } from "../features/authSlice";
 
 const StyledHeader = styled.header`
   display: flex;
@@ -48,6 +52,9 @@ const ListItem = styled.li`
 `;
 
 function Header() {
+  const { loggedInUser } = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
   return (
     <StyledHeader>
       <Styledh1>Movie App</Styledh1>
@@ -64,7 +71,16 @@ function Header() {
         </ul>
         <ul>
           <ListItem>
-            <StyledNavLink to="login">Login</StyledNavLink>
+            <StyledNavLink to="login">
+              {loggedInUser ? (
+                <div>
+                  @{loggedInUser.username}
+                  <IoIosLogOut onClick={() => dispatch(logout())} />
+                </div>
+              ) : (
+                "Login"
+              )}
+            </StyledNavLink>
           </ListItem>
         </ul>
       </StyledNav>
