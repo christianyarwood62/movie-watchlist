@@ -35,6 +35,7 @@ body {
   --color-grey-900: #f9fafb;
 
   --color-lightblue-100: #075985;
+  --color-lightblue-500: oklch(54.6% 0.245 262.881);
   --color-blue-700: #e0f2fe;
   --color-green-100: #166534;
   --color-green-700: #dcfce7;
@@ -55,4 +56,6 @@ body {
   --color-red-100: #fee2e2;
   --color-red-700: #b91c1c;
   --color-red-800: #991b1b;
+
+  --input-bg-color: rgba(74, 74, 94, 0.607);
 }

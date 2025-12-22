@@ -33,6 +33,7 @@ const watchSlice = createSlice({
     toggleWatched(state, action) {
       const { user, id } = action.payload;
 
+      // Iterate through the users watch list and if id matches, toggle the watched attribute
       state.userWatchLists[user] = state.userWatchLists[user].map((movie) =>
         movie.imdbID === id
           ? { ...movie, watched: !movie.watched }
