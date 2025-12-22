@@ -4,7 +4,7 @@ import { fetchMovie } from "../services/apiMovies";
 import { useDispatch, useSelector } from "react-redux";
 import { addMovie, removeMovie } from "../features/watchSlice";
 import { fetchMovies } from "../features/movieSlice";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { IoMdCheckmark } from "react-icons/io";
 import { FaPlus } from "react-icons/fa";
 import { FaMagnifyingGlass } from "react-icons/fa6";
@@ -111,17 +111,17 @@ function MovieList() {
   // Grab the watch list state, so all the movies added to the watchlist
   const { userWatchLists } = useSelector((state) => state.watchList);
 
-  //
+  // Destructure the logged in user from the auth slice
   const { loggedInUser } = useSelector((state) => state.auth);
 
-  // if the movie list from redux store is empty, then it grabs a bunch of initial movies
+  // If the movie list from redux store is empty, then it grabs a bunch of initial movies
   useEffect(() => {
     if (movies.length === 0) {
       dispatch(fetchMovies("interstellar"));
     }
   }, [dispatch, movies.length]);
 
-  // searches the API for generic info about the movie and adds it to the movieSlice reducer state
+  // Searches the API for generic info about the movie and adds it to the movieSlice reducer state
   async function handleSearchMovie(movie) {
     dispatch(fetchMovies(movie));
   }
@@ -129,23 +129,35 @@ function MovieList() {
   // Searches the API for more detailed info about the selected movie and adds it to the watchList reducer state
   async function addMovieToWatchList(id) {
     const searchedMovie = await fetchMovie(id);
+    if (!loggedInUser) return;
     dispatch(addMovie({ user: loggedInUser.username, movie: searchedMovie }));
     toast("Movie added to your watch list!");
   }
 
+  // Remove the selected movie matching the id in the movie state with the currently logged in user
   function removeMovieFromWatchList(id) {
+    dispatch(removeMovie({ user: loggedInUser.username, id }));
     toast("Movie removed from your watch list!");
-    dispatch(removeMovie(id));
   }
 
   // Checks if the movie is already added to the watch list, to conditionally render the add or remove button in the icon
-  // const isMovieAlreadyAdded = movies.map((movie) =>
-  //   userWatchLists.user.some((watchMovie) => watchMovie.imdbID === movie.imdbID)
-  // );
+  const isMovieAlreadyAdded = movies.map((movie) =>
+    userWatchLists[loggedInUser?.username]?.some(
+      (watchMovie) => watchMovie.imdbID === movie.imdbID
+    )
+  );
 
+  function handleOnAddOrRemove(imdb, i) {
+    // If no user is currently logged in, notify with this message
+    if (!loggedInUser) toast("Login to add movies to your list");
+
+    // Iterate through the fetched movie list and check if it is already added in to the logged in users watchlist
+    if (isMovieAlreadyAdded[i]) removeMovieFromWatchList(imdb);
+    // If the current user doesnt have this movie added, add it to their watch list
+    else addMovieToWatchList(imdb);
+  }
   return (
     <StyledMain>
-      <ToastContainer />
       <StyledForm
         onSubmit={(e) => {
           e.preventDefault();
@@ -166,22 +178,14 @@ function MovieList() {
           movies?.map((movie, i) => (
             <MovieContainer key={movie.imdbID}>
               <AddButton
-                // $added={isMovieAlreadyAdded[i]}
-                onClick={
-                  // !loggedInUser
-                  //   ? () => toast("Login to add movies to your list")
-                  //   : isMovieAlreadyAdded[i]
-                  //   ? () => removeMovieFromWatchList(movie.imdbID)
-                  //   : () => {
-                  () => addMovieToWatchList(movie.imdbID)
-                  // }
-                }
+                $added={isMovieAlreadyAdded[i]}
+                onClick={() => handleOnAddOrRemove(movie.imdbID, i)}
               >
-                {/* {isMovieAlreadyAdded[i] ? (
+                {isMovieAlreadyAdded[i] ? (
                   <IoMdCheckmark style={{ strokeWidth: "50" }} />
                 ) : (
                   <FaPlus style={{ strokeWidth: "10" }} />
-                )} */}
+                )}
               </AddButton>
               <img style={{ margin: "auto 0" }} src={movie.Poster} />
               <MovieText>

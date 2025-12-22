@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import styled from "styled-components";
+import { ToastContainer } from "react-toastify";
 
 const StyledAppLayout = styled.div`
   display: grid;
@@ -21,6 +22,7 @@ function AppLayout() {
     <StyledAppLayout>
       <Header />
       <Container>
+        <ToastContainer />
         <Outlet />
       </Container>
     </StyledAppLayout>

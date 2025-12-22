@@ -14,7 +14,6 @@ function Watchlist() {
 
   const { loggedInUser } = useSelector((state) => state.auth);
 
-  console.log(userWatchLists);
   return (
     <WatchList>
       <h1>My Watch List</h1>

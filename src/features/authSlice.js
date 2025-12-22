@@ -12,12 +12,14 @@ const authSlice = createSlice({
   reducers: {
     login(state, action) {
       const existingUser = state.users.find(
-        (user) =>
-          user.username === action.payload.username &&
-          user.password === action.payload.password
+        (user) => user.username === action.payload.username
       );
 
-      if (!existingUser) return { ...state, error: "No user found" };
+      if (!existingUser) {
+        state.error = "No user found";
+        state.loggedInUser = null;
+        return;
+      }
 
       const correctUsername = state.users.find(
         (user) => user.username === action.payload.username
@@ -26,15 +28,18 @@ const authSlice = createSlice({
       if (
         correctUsername &&
         correctUsername.password !== action.payload.password
-      )
-        return { ...state, error: "Incorrect password" };
+      ) {
+        state.error = "Incorrect password";
+        return;
+      }
 
-      if (existingUser)
-        return { ...state, error: null, loggedInUser: existingUser };
+      state.error = null;
+      state.loggedInUser = { username: existingUser.username };
     },
 
     logout(state) {
-      return { ...state, loggedInUser: null, error: null };
+      state.loggedInUser = null;
+      state.error = null;
     },
 
     createAccount(state, action) {
@@ -45,7 +50,6 @@ const authSlice = createSlice({
       state.error = null;
       state.loggedInUser = {
         username: action.payload.username,
-        password: action.payload.password,
       };
     },
   },

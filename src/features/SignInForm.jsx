@@ -25,7 +25,6 @@ function SignInForm() {
   } = useForm();
 
   function handleLogin(data) {
-    console.log(data);
     // Login with the user filled in details
     dispatch(login({ username: data.username, password: data.password }));
   }

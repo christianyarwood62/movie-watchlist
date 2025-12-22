@@ -126,8 +126,8 @@ function MovieWatchListItem({ movie }) {
   const dispatch = useDispatch();
 
   function handleRemoveMovie(id) {
-    dispatch(removeMovie({ user: loggedInUser.username, id }));
     toast("Movie deleted from watch list");
+    dispatch(removeMovie({ user: loggedInUser.username, id }));
   }
 
   function handleToggleWatched(id) {
