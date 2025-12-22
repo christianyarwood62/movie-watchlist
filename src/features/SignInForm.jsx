@@ -26,15 +26,20 @@ function SignInForm() {
 
   function handleLogin(data) {
     console.log(data);
+    // Login with the user filled in details
     dispatch(login({ username: data.username, password: data.password }));
   }
 
   function handleCreateAccount(data) {
     console.log(data);
+
+    // Create an account based on the inputted details
     dispatch(
       createAccount({ username: data.username, password: data.password })
     );
+    // Reset the form inputs
     reset();
+    // Navigate to the watch list so users can see their previous watch list
     navigate("/watch-list");
   }
 

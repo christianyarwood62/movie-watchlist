@@ -10,18 +10,20 @@ const WatchList = styled.div`
 `;
 
 function Watchlist() {
-  const watchList = useSelector((state) => state.watchList);
+  const { userWatchLists } = useSelector((state) => state.watchList);
 
-  console.log(watchList);
+  const { loggedInUser } = useSelector((state) => state.auth);
+
   return (
     <WatchList>
       <h1>My Watch List</h1>
-      {watchList.length === 0 ? (
-        <h3>Add some movies!</h3>
-      ) : (
-        watchList.map((movie) => (
+      {loggedInUser ? (
+        userWatchLists[loggedInUser.username] !== undefined &&
+        userWatchLists[loggedInUser.username].map((movie) => (
           <MovieWatchListItem key={movie.imdbID} movie={movie} />
         ))
+      ) : (
+        <div>Log in</div>
       )}
     </WatchList>
   );

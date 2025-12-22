@@ -109,7 +109,10 @@ function MovieList() {
   const { isLoading, movies } = useSelector((state) => state.movieList);
 
   // Grab the watch list state, so all the movies added to the watchlist
-  const watchList = useSelector((state) => state.watchList);
+  const { userWatchLists } = useSelector((state) => state.watchList);
+
+  //
+  const { loggedInUser } = useSelector((state) => state.auth);
 
   // if the movie list from redux store is empty, then it grabs a bunch of initial movies
   useEffect(() => {
@@ -126,7 +129,7 @@ function MovieList() {
   // Searches the API for more detailed info about the selected movie and adds it to the watchList reducer state
   async function addMovieToWatchList(id) {
     const searchedMovie = await fetchMovie(id);
-    dispatch(addMovie(searchedMovie));
+    dispatch(addMovie({ user: loggedInUser.username, movie: searchedMovie }));
     toast("Movie added to your watch list!");
   }
 
@@ -136,9 +139,9 @@ function MovieList() {
   }
 
   // Checks if the movie is already added to the watch list, to conditionally render the add or remove button in the icon
-  const isMovieAlreadyAdded = movies.map((movie) =>
-    watchList.some((watchMovie) => watchMovie.imdbID === movie.imdbID)
-  );
+  // const isMovieAlreadyAdded = movies.map((movie) =>
+  //   userWatchLists.user.some((watchMovie) => watchMovie.imdbID === movie.imdbID)
+  // );
 
   return (
     <StyledMain>
@@ -163,20 +166,22 @@ function MovieList() {
           movies?.map((movie, i) => (
             <MovieContainer key={movie.imdbID}>
               <AddButton
-                $added={isMovieAlreadyAdded[i]}
+                // $added={isMovieAlreadyAdded[i]}
                 onClick={
-                  isMovieAlreadyAdded[i]
-                    ? () => removeMovieFromWatchList(movie.imdbID)
-                    : () => {
-                        addMovieToWatchList(movie.imdbID);
-                      }
+                  // !loggedInUser
+                  //   ? () => toast("Login to add movies to your list")
+                  //   : isMovieAlreadyAdded[i]
+                  //   ? () => removeMovieFromWatchList(movie.imdbID)
+                  //   : () => {
+                  () => addMovieToWatchList(movie.imdbID)
+                  // }
                 }
               >
-                {isMovieAlreadyAdded[i] ? (
+                {/* {isMovieAlreadyAdded[i] ? (
                   <IoMdCheckmark style={{ strokeWidth: "50" }} />
                 ) : (
                   <FaPlus style={{ strokeWidth: "10" }} />
-                )}
+                )} */}
               </AddButton>
               <img style={{ margin: "auto 0" }} src={movie.Poster} />
               <MovieText>
