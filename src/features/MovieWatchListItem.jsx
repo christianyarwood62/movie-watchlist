@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { removeMovie, toggleWatched } from "../features/watchSlice";
 import styled, { css } from "styled-components";
 import { RiDeleteBinLine } from "react-icons/ri";
@@ -122,10 +122,11 @@ const Buttons = styled.div`
 `;
 
 function MovieWatchListItem({ movie }) {
+  const { loggedInUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   function handleRemoveMovie(id) {
-    dispatch(removeMovie(id));
+    dispatch(removeMovie({ user: loggedInUser.username, id }));
     toast("Movie deleted from watch list");
   }
 

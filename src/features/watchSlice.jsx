@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { userWatchLists: { chris: [1, 2, 3], kelly: [4, 5, 6] } };
+const initialState = { userWatchLists: {} };
 
 const watchSlice = createSlice({
   name: "watchList",
@@ -14,11 +14,16 @@ const watchSlice = createSlice({
       }
       state.userWatchLists[user].push({ ...movie, watched: false });
     },
-    // removeMovie(state, action) {
-    //   return state.userWatchLists.filter(
-    //     (movie) => movie.imdbID !== action.payload
-    //   );
-    // },
+
+    removeMovie(state, action) {
+      const { user, id } = action.payload;
+
+      if (state.userWatchLists[user]) {
+        state.userWatchLists[user] = state.userWatchLists[user].filter(
+          (movie) => movie.imdbID !== id
+        );
+      }
+    },
     // toggleWatched(state, action) {
     //   return state.userWatchList.watchList.map((movie) =>
     //     movie.imdbID === action.payload
