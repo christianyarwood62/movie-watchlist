@@ -30,13 +30,15 @@ const watchSlice = createSlice({
         );
       }
     },
-    // toggleWatched(state, action) {
-    //   return state.userWatchList.watchList.map((movie) =>
-    //     movie.imdbID === action.payload
-    //       ? { ...movie, watched: !movie.watched }
-    //       : { ...movie }
-    //   );
-    // },
+    toggleWatched(state, action) {
+      const { user, id } = action.payload;
+
+      state.userWatchLists[user] = state.userWatchLists[user].map((movie) =>
+        movie.imdbID === id
+          ? { ...movie, watched: !movie.watched }
+          : { ...movie }
+      );
+    },
   },
 });
 

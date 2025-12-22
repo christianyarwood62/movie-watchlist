@@ -131,7 +131,7 @@ function MovieWatchListItem({ movie }) {
   }
 
   function handleToggleWatched(id) {
-    dispatch(toggleWatched(id));
+    dispatch(toggleWatched({ user: loggedInUser.username, id }));
   }
 
   return (
