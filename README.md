@@ -1,54 +1,84 @@
 # Movie Watchlist App
 
-## Requirements
+A React-based movie watchlist application built to demonstrate state management using Redux Toolkit, UI-driven filtering, and clean separation of concerns. The app mirrors real-world product functionality such as browsing, searching, tracking watch status, and rating content. This project can be displayed by running the following in the terminal:
 
-## Features
+```
+npm install
+npm run dev
+```
 
-1. a User can browse through a list of movies
-2. a user can search through this list for specific movies
-3. this list of movies will display info about the movie, like watchtime, poster, imdb rating, year made
-4. each movie in the list will have a way of letting the user add it to their "to watch" list. when activated, the movie will show up in a watchlist page
-5. There will be a watchlist page which displays all the movies the user has selected to watch
-6. these movies will have a way of toggling whether they've watched it already
-7. there will be a way of filtering the movie watchlist, for unwatched, watched
-8. the user will be able to rate movies, which automatically toggles it to watched
+## Project Goals
+
+- Demonstrate scalable global state management using Redux Toolkit
+- Build a clear UI flow across multiple pages using client-side routing
+- Model complex UI state such as watch status, filtering, and ratings
+- Create a clean, minimal interface focused on usability
+
+## Tech Stack
+
+- **React** – Component-based UI development
+- **Redux Toolkit** – Global UI state management (movies, watchlist, filters, ratings)
+- **React Redux** – State binding between Redux store and components
+- **React Router (BrowserRouter)** – Client-side routing between pages
+- **Styled Components** – Component-scoped styling using the **_styled-components_** npm package
+- **JavaScript (ES6+)**
+
+## Core Features
+
+1. Movie Browsing & Search
+
+- Browse a predefined list of movies, that is fetched from an external movie API
+- Search functionality to filter movies by title
+- Each movie displays key metadata including:
+  - Runtime
+  - Release year
+  - IMDb rating
+  - Poster image
+
+2. Watchlist Management
+
+- Add movies to a personal “To Watch” list
+- Dedicated Watchlist page showing selected movies
+- Ability to remove movies from the watchlist
+
+3. Watch Status & Filtering
+
+- Toggle movies between watched and unwatched states
+- Filter watchlist to show:
+  - All movies
+  - Watched movies
+  - Unwatched movies
+
+4. Login system
+
+- Users are able to sign up and log into their own accounts which will display their watchlist which is stored in redux toolkit memory
+
+### Future features
+
+4. Movie Rating
+
+- Users can rate movies directly from the watchlist
+- Rating a movie automatically marks it as watched
+- Demonstrates derived state and Redux reducer logic
 
 ## Pages
 
-1. movie list
-2. watch list
-
-## Tech decisions
-
-### CSS
-
-- styled npm package
-
-### UI State Management
-
-- Redux Toolkit
-
-### Remote State Management
-
-- none
-
-### Routing
-
-- Browser Router
-
-### Form management
-
-- none
-
-### Other NPM packages
-
-- none
+- **Movie List** - Browse and search available movies
+- **Watch List** - Manage watched/unwatched movies and ratings
 
 ## Design decisions
 
-- Dark background
-- grey text
-- a navbar at the top with 2 nav links on the top right to navigate between pages
-- Large poster images with title directly underneath, and supplementary info beneath that
-- grid arrangement for the movie list as icons
-- a list for the watch movie list with poster on left and remove button on the right
+- Dark-themed UI to match modern streaming platforms
+- Muted grey typography for readability and focus
+- Top navigation bar with clear access to both pages
+- Grid layout for movie browsing with large poster imagery
+- List layout for watchlist
+
+## Key Learnings
+
+This project demonstrates my ability to:
+
+- Design and implement Redux state slices and reducers
+- Manage derived and conditional UI state
+- Structure an SPA page application with multiple page components
+- Make UI and UX decisions without relying on UI libraries
