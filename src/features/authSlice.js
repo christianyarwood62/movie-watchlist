@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  users: [], // each user is {username: '...', password: '...'}
+  users: [], // each user is {username: '...', password: '...', provider: '...'}
   loggedInUser: null,
   error: null,
 };
@@ -52,9 +52,33 @@ const authSlice = createSlice({
         username: action.payload.username,
       };
     },
+
+    googleLogin(state, action) {
+      const email = action.payload;
+      let existingUser = state.users.find(
+        (user) => user.username === email && user.provider === "google"
+      );
+
+      if (!existingUser) {
+        existingUser = {
+          username: email,
+          password: null,
+          provider: "google",
+        };
+        state.users.push(existingUser);
+      }
+
+      state.loggedInUser = { username: existingUser.username };
+      state.error = null;
+    },
+
+    resetError(state) {
+      state.error = null;
+    },
   },
 });
 
-export const { login, logout, createAccount } = authSlice.actions;
+export const { login, logout, createAccount, googleLogin, resetError } =
+  authSlice.actions;
 
 export default authSlice.reducer;

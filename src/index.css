@@ -1,23 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
 
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-html {
-  font-size: 62.5%;
-}
-
-body {
-  font-family: "Inter", "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
-    sans-serif;
-  line-height: 1;
-  font-weight: 400;
-  color: var(--color-grey-600);
-}
-
 /*  Spacing System for font sizes (px)
 10 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 44 / 52 / 62 / 74 / 86 / 98 */
 
@@ -35,7 +17,8 @@ body {
   --color-grey-900: #f9fafb;
 
   --color-lightblue-100: #075985;
-  --color-lightblue-500: oklch(54.6% 0.245 262.881);
+  --color-lightblue-500: #155dfc;
+  --color-lightblue-700: #0f41b0;
   --color-blue-700: #e0f2fe;
   --color-green-100: #166534;
   --color-green-700: #dcfce7;
@@ -51,11 +34,14 @@ body {
   --color-blue-300: #121142;
   --color-blue-400: #0d0c2f;
   --color-blue-500: #08071c;
-  --color-blue-600: #24233f;
+  --color-blue-600: rgba(36, 35, 63, 0.5);
 
   --color-red-100: #fee2e2;
   --color-red-700: #b91c1c;
   --color-red-800: #991b1b;
+  --color-red-400: #c78282;
 
-  --input-bg-color: rgba(74, 74, 94, 0.607);
+  --error-opaque-red: rgba(215, 0, 0, 0.403);
+
+  --input-bg-color: rgba(35, 35, 116, 0.269);
 }

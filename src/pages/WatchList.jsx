@@ -1,6 +1,8 @@
 import { useSelector } from "react-redux";
 import MovieWatchListItem from "../features/MovieWatchListItem";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const WatchList = styled.div`
   display: flex;
@@ -13,6 +15,12 @@ function Watchlist() {
   const { userWatchLists } = useSelector((state) => state.watchList);
 
   const { loggedInUser } = useSelector((state) => state.auth);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loggedInUser) navigate("/login");
+  }, [navigate, loggedInUser]);
 
   return (
     <WatchList>
