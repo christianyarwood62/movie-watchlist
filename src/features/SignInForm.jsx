@@ -183,6 +183,7 @@ function SignInForm() {
           <StyledInput
             placeholder="Enter your password"
             id="passwordInput"
+            type="password"
             {...register("password")}
           />
         </PasswordArea>
@@ -200,6 +201,7 @@ function SignInForm() {
               <StyledInput
                 placeholder="Confirm your username"
                 id="confirmPasswordInput"
+                type="password"
                 {...register("confirm-password")}
               />
             </PasswordArea>
