@@ -13,10 +13,13 @@ const StyledHeader = styled.header`
 `;
 
 const StyledNavLink = styled(NavLink)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   text-decoration: none;
   color: var(--color-grey-600);
   padding: 1rem;
-  display: inline-block;
   font-size: 2.4rem;
   border-radius: 1rem;
   cursor: pointer;
@@ -28,6 +31,16 @@ const StyledNavLink = styled(NavLink)`
   &.active:hover {
     background: var(--color-indigo-100);
   }
+
+  &:hover {
+    background-color: var(--color-grey-200);
+  }
+`;
+
+const LogoutLogo = styled.button`
+  padding: 10px;
+  color: var(--color-grey-600);
+  font-size: 2.4rem;
 
   &:hover {
     background-color: var(--color-grey-200);
@@ -51,6 +64,11 @@ const ListItem = styled.li`
   margin: 0;
 `;
 
+const Divider = styled.div`
+  background-color: grey;
+  width: 1px;
+`;
+
 function Header() {
   const { loggedInUser } = useSelector((state) => state.auth);
 
@@ -69,20 +87,23 @@ function Header() {
             <StyledNavLink to="watch-list">Watch list</StyledNavLink>
           </ListItem>
         </ul>
+        <Divider></Divider>
         <ul>
           <ListItem>
             <StyledNavLink to="login">
-              {loggedInUser ? (
-                <div>
-                  @{loggedInUser.username}
-                  <IoIosLogOut onClick={() => dispatch(logout())} />
-                </div>
-              ) : (
-                "Login"
-              )}
+              {loggedInUser ? <>@{loggedInUser.username}</> : "Login"}
             </StyledNavLink>
           </ListItem>
         </ul>
+        {loggedInUser && (
+          <ul>
+            <ListItem>
+              <LogoutLogo>
+                <IoIosLogOut onClick={() => dispatch(logout())} />
+              </LogoutLogo>
+            </ListItem>
+          </ul>
+        )}
       </StyledNav>
     </StyledHeader>
   );
