@@ -7,6 +7,10 @@ import Watchlist from "./pages/WatchList";
 import LoginPage from "./pages/LoginPage";
 import { createGlobalStyle } from "styled-components";
 
+import { PersistGate } from "redux-persist/integration/react";
+import { Provider } from "react-redux";
+import { persistor, store } from "./store";
+
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
@@ -72,10 +76,14 @@ input {
 
 function App() {
   return (
-    <GoogleOAuthProvider clientId="251462319482-j89rnbe1smt9aco9h8nu44qrnd5tcm7u.apps.googleusercontent.com">
-      <GlobalStyle />
-      <RouterProvider router={router} />
-    </GoogleOAuthProvider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <GoogleOAuthProvider clientId="251462319482-j89rnbe1smt9aco9h8nu44qrnd5tcm7u.apps.googleusercontent.com">
+          <GlobalStyle />
+          <RouterProvider router={router} />
+        </GoogleOAuthProvider>
+      </PersistGate>
+    </Provider>
   );
 }
 
