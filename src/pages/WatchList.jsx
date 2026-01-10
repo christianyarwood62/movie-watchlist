@@ -8,7 +8,7 @@ const WatchList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  margin-top: 2rem;
+  margin-top: 6rem;
 `;
 
 function Watchlist() {
@@ -24,12 +24,21 @@ function Watchlist() {
 
   return (
     <WatchList>
-      <h1>My Watch List</h1>
       {loggedInUser ? (
         userWatchLists[loggedInUser.username] !== undefined &&
-        userWatchLists[loggedInUser.username].map((movie) => (
-          <MovieWatchListItem key={movie.imdbID} movie={movie} />
-        ))
+        userWatchLists[loggedInUser.username].length === 0 ? (
+          <p>
+            Your watch list is empty. Add some movies from the Browse Movies
+            page!
+          </p>
+        ) : (
+          <>
+            <h1>My Watch List</h1>
+            {userWatchLists[loggedInUser.username].map((movie) => (
+              <MovieWatchListItem key={movie.imdbID} movie={movie} />
+            ))}
+          </>
+        )
       ) : (
         <div>Log in</div>
       )}

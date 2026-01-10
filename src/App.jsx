@@ -50,6 +50,10 @@ body {
   color: var(--color-grey-600);
 }
 
+h1 {
+  font-size: 5rem;
+}
+
 h2 {
   font-size: 4rem;
 }
